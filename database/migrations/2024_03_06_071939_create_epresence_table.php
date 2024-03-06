@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('epresence', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('npp');
-            $table->string('npp_supervisor');
-            $table->string('password');
-            $table->unsignedBigInteger('m_role_id');
-            $table->rememberToken();
+            $table->unsignedBigInteger('id_users');
+            $table->string('type');
+            $table->string('is_approve');
+            $table->string('waktu');
             $table->timestamps();
+
+            $table->foreign('id_users')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('epresence');
     }
 };

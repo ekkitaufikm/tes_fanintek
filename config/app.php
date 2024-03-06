@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => 'PT.FAN Integrasi Teknologi',
 
     /*
     |--------------------------------------------------------------------------
@@ -182,7 +182,8 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // 'Example' => App\Facades\Example::class,
+        'App' => Illuminate\Support\Facades\App::class,
+        'Helpers' => App\Helpers\Helpers::class,
     ])->toArray(),
 
 ];
