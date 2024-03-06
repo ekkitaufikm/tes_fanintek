@@ -46,8 +46,8 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         // Hapus semua token yang terkait dengan pengguna saat ini
-        $request->user()->tokens()->delete();
+        $request->user()->token()->revoke();
 
-        return response()->json(['message' => 'Logged out']);
+        return response(['message' => 'Successfully logged out']);
     }
 }

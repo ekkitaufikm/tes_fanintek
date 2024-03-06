@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'Auth\LoginController')->name('/');
 
-Route::group(['middleware' => 'auth:api'], function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', 'HomeController@index')->name('home');
+
+    Route::prefix('users')->group(function(){
+        Route::get('/', 'UsersController@index')->name('users');
+        Route::get('/create', 'UsersController@create')->name('users.create');
+        Route::get('/edit/{id}', 'UsersController@edit')->name('users.edit');
+    });
 });

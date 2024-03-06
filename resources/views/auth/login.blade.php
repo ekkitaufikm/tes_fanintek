@@ -171,7 +171,7 @@
                             icon: "success",
                             timer: 1500
                         }).then(function() {
-                            var homeUrl = "{{ route('home')}}";
+                            var homeUrl = "{{ url('api/home')}}";
                             window.location.href = homeUrl;
                         });
                     } else {
