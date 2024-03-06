@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
@@ -23,22 +24,30 @@ class LoginController extends Controller
     }
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        // Validasi data yang diterima dari form
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-            $token = $user->createToken('MyApp')->accessToken;
-
-            return response()->json(['token' => $token], 200);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
         }
 
-        return response()->json(['error' => 'Unauthenticated'], 401);
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            $user = Auth::user();
+            $accessToken = $user->createToken('authToken')->accessToken;
+            return response()->json(['status' => true, 'message' => "Berhasil Login!", 'access_token' => $accessToken], 200);
+        } else {
+            return response()->json(['status' => false, 'message' => 'Gagal Login'], 401);
+        }
     }
 
     public function logout(Request $request)
     {
-        $request->user()->token()->revoke();
+        // Hapus semua token yang terkait dengan pengguna saat ini
+        $request->user()->tokens()->delete();
 
-        return response()->json(['message' => 'Successfully logged out'], 200);
+        return response()->json(['message' => 'Logged out']);
     }
 }

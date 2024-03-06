@@ -14,3 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'Auth\LoginController')->name('/');
+
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+});

@@ -17,6 +17,10 @@
 	<link rel="shortcut icon" type="image/png" href="{{ url('') }}/assets/images/favicon.png">
 	<link href="{{ url('') }}/assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
     <link href="{{ url('') }}/assets/css/style.css" rel="stylesheet">
+    @yield('css-library')
+    @yield('css-custom')
+	
+	{{-- <link href="{{ url('') }}/assets/css/sweetalert2.min.css" rel="stylesheet"> --}}
 
 </head>
 
@@ -38,5 +42,9 @@
     <script src="{{ url('') }}/assets/js/custom.js"></script>
     <script src="{{ url('') }}/assets/js/demo.js"></script>
     <script src="{{ url('') }}/assets/js/styleSwitcher.js"></script>
+	{{-- <script src="{{ url('') }}/assets/js/sweetalert2.min.js"></script> --}}
+	@yield('js-library')
+	@yield('js-custom')
+	
 </body>
 </html>

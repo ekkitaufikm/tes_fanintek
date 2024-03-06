@@ -10,3 +10,4 @@
 
 <!-- Style css -->
 <link href="{{ url('') }}/assets/css/style.css" rel="stylesheet">
+<link href="{{ url('') }}/assets/css/sweetalert2.min.css" rel="stylesheet">
