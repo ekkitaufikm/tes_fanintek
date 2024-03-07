@@ -16,13 +16,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/login', 'Auth\LoginController@login')->name('login');
-Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+Route::middleware('auth:api')->post('/logout', 'AuthController@logout');
 
 //data users
 Route::prefix('users')->group(function(){
     Route::get('/', 'API\UsersController@index')->name('users');
-    Route::get('/store', 'API\UsersController@store')->name('users.store');
-    Route::get('/update/{id}', 'API\UsersController@update')->name('users.update');
+    Route::post('/store', 'API\UsersController@store')->name('users.store');
+    Route::post('/update/{id}', 'API\UsersController@update')->name('users.update');
 })->middleware('auth:api');
 
 //dataTable
