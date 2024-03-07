@@ -1,23 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Http\Resources\UsersResources;
 
 class UsersController extends Controller
 {
     public function index()
     {
         $users = User::all();
-        return view('users.index', [
-            "users" => $users,
-        ]);
-    }
-
-    public function create()
-    {
-        return view('users.create');
+        return response(['users' => UsersResources::collection($users), 'message' => 'Data Berhasil Ditampilkan'], 200);
     }
 
     public function store(Request $request)
@@ -38,12 +33,13 @@ class UsersController extends Controller
             'm_role_id' => $request->m_role_id,
         ]);
 
-        return response()->json(['message' => 'Data User Berhasil ditambahkan', 'user' => $user], 201);
+        return response()->json(['message' => 'Data User Berhasil ditambahkan', 'user' => $user], 200);
     }
 
     public function show($id)
     {
-        return User::findOrFail($id);
+        $users = User::findOrFail($id);
+        return response(['users' => new UsersResources($users), 'message' => 'Data Berhasil Ditampilkan'], 200);
     }
 
     public function update(Request $request, $id)
@@ -57,7 +53,7 @@ class UsersController extends Controller
 
         $user->update($request->all());
 
-        return response()->json(['message' => 'User updated successfully', 'user' => $user]);
+        return response()->json(['message' => 'Data User Berhasil diubah', 'user' => $user], 200);
     }
 
     public function destroy($id)
@@ -65,6 +61,6 @@ class UsersController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return response()->json(['message' => 'User deleted successfully']);
+        return response()->json(['message' => 'Data User Berhasil dihapus']);
     }
 }

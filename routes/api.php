@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Resources\UsersResources;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,11 +16,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/login', 'Auth\LoginController@login')->name('login');
-Route::middleware('auth:api')->post('/logout', 'AuthController@logout');
+Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 //data users
-Route::middleware('auth:api')->post('/users/store', 'UsersController@store');
-Route::middleware('auth:api')->put('/users/update/{id}', 'UsersController@update');
+Route::prefix('users')->group(function(){
+    Route::get('/', 'API\UsersController@index')->name('users');
+    Route::get('/store', 'API\UsersController@store')->name('users.store');
+    Route::get('/update/{id}', 'API\UsersController@update')->name('users.update');
+})->middleware('auth:api');
 
 //dataTable
 Route::any('getTableUsers', 'DataTables\UsersDataTables@getTableUsers');

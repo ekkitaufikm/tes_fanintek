@@ -34,13 +34,12 @@ class LoginController extends Controller
             return response()->json(['error' => $validator->errors()], 422);
         }
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            $user = Auth::user();
-            $accessToken = $user->createToken('authToken')->accessToken;
-            return response()->json(['status' => true, 'message' => "Berhasil Login!", 'access_token' => $accessToken], 200);
-        } else {
-            return response()->json(['status' => false, 'message' => 'Gagal Login'], 401);
-        }
+        if (!auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
+            return response(['message' => 'User ini Tidak Terdaftar!'], 401);
+        } 
+
+        $accessToken = auth()->user()->createToken('authToken')->accessToken;
+        return response(['user' => auth()->user(), 'access_token' => $accessToken], 200);
     }
 
     public function logout(Request $request)
